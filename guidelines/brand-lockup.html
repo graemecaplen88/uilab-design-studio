@@ -1,0 +1,28 @@
+<!-- @dsCard group="Brand" viewport="700x230" name="Lockup & tagline" subtitle="Brandmark + wordmark, with the brand voice line" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: var(--uil-water); padding: 34px 36px; display: flex; flex-direction: column; gap: 22px; }
+  .lock { display: flex; align-items: center; gap: 18px; }
+  .lock .mark { height: 52px; }
+  .lock .word { height: 30px; }
+  .rule { height: 1px; background: var(--border); }
+  .line { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; letter-spacing: -.02em; color: var(--uil-white); max-width: 22ch; }
+  .line u { text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-skip-ink: auto; color: var(--uil-sun); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="lock">
+      <img class="mark" src="../assets/logos/brandmark-sun.svg" alt="UiLab brandmark">
+      <img class="word" src="../assets/logos/wordmark-sun.svg" alt="UiLab wordmark">
+    </div>
+    <div class="rule"></div>
+    <div class="line">Translating <u>emerging technology</u> into <u>local success</u>.</div>
+  </div>
+</body>
+</html>

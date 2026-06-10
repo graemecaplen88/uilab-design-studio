@@ -1,0 +1,84 @@
+/* ============================================================
+   UiLab — Typography
+   ------------------------------------------------------------
+   Two voices:
+   • DISPLAY/BODY — PP Neue Montreal (→ Hanken Grotesk substitute).
+     Sentence case. Bold for headlines, Regular for large display,
+     Medium/Regular for body. Tight tracking on large sizes.
+   • MONO LABELS — Roboto Mono Bold, UPPERCASE, wide tracking.
+     Eyebrows, tags, names, roles, URLs, metadata, table headers.
+
+   Underlines: used sparingly to emphasise key words. Stroke
+   weight matches the type; use "skip-ink" so descenders break
+   the line (text-decoration-skip-ink: auto). See .uil-underline.
+   ============================================================ */
+
+:root {
+  /* Families */
+  --font-display: 'PP Neue Montreal', 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    'Roboto Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Weights (PP Neue Montreal: Light/Regular/Medium/SemiBold/Bold) */
+  --fw-light:   300; /* @kind font */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium:  500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-bold:    700; /* @kind font */
+
+  /* ---- Display scale (PP Neue Montreal) — clamp for fluidity ----
+     Sentence case. Tighter tracking the larger it gets. */
+  --type-display:   clamp(3.25rem, calc(1.6rem + 6.4vw), 6.5rem);   /* hero       */
+  --type-h1:        clamp(2.5rem, calc(1.5rem + 3.6vw), 4.25rem);   /* 58/58 vibe */
+  --type-h2:        clamp(2rem, calc(1.4rem + 2.4vw), 3.25rem);     /* 52/48 vibe */
+  --type-h3:        clamp(1.5rem, calc(1.15rem + 1.4vw), 2.25rem);
+  --type-h4:        clamp(1.25rem, calc(1.05rem + 0.7vw), 1.625rem);
+  --type-lead:      clamp(1.125rem, calc(1rem + 0.5vw), 1.375rem);
+  --type-body:      1.0625rem;   /* 17px */
+  --type-body-sm:   0.9375rem;   /* 15px */
+  --type-caption:   0.8125rem;   /* 13px */
+
+  /* ---- Mono label scale (Roboto Mono Bold, uppercase) ---- */
+  --type-label:     0.8125rem;   /* 13px — eyebrows, tags        */
+  --type-label-sm:  0.6875rem;   /* 11px — fine print, metadata  */
+  --type-mono-data: 0.9375rem;   /* 15px — figures, code, values */
+
+  /* Line heights */
+  --lh-tight:   1.02; /* @kind other */
+  --lh-snug:    1.12; /* @kind other */
+  --lh-normal:  1.5;  /* @kind other */
+  --lh-mono:    1.45; /* @kind other */
+
+  /* Tracking */
+  --track-display: -0.03em; /* @kind other */
+  --track-head:    -0.02em; /* @kind other */
+  --track-body:    0em;     /* @kind other */
+  --track-label:   0.14em;  /* @kind other */
+  --track-label-sm:0.18em;  /* @kind other */
+}
+
+/* ---- Reusable type roles (optional helpers) ---- */
+.uil-display { font-family: var(--font-display); font-weight: var(--fw-bold);   font-size: var(--type-display); line-height: var(--lh-tight); letter-spacing: var(--track-display); }
+.uil-h1      { font-family: var(--font-display); font-weight: var(--fw-bold);   font-size: var(--type-h1);      line-height: var(--lh-snug);  letter-spacing: var(--track-head); }
+.uil-h2      { font-family: var(--font-display); font-weight: var(--fw-regular);font-size: var(--type-h2);      line-height: var(--lh-snug);  letter-spacing: var(--track-head); }
+.uil-h3      { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--type-h3);      line-height: var(--lh-snug); }
+.uil-lead    { font-family: var(--font-display); font-weight: var(--fw-regular);font-size: var(--type-lead);    line-height: 1.4; }
+.uil-body    { font-family: var(--font-display); font-weight: var(--fw-regular);font-size: var(--type-body);    line-height: var(--lh-normal); }
+
+/* Mono label — the signature kicker */
+.uil-label {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-bold);
+  font-size: var(--type-label);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: var(--track-label);
+}
+.uil-data { font-family: var(--font-mono); font-weight: var(--fw-medium); font-size: var(--type-mono-data); letter-spacing: 0; }
+
+/* Skip-ink underline for key-word emphasis */
+.uil-underline {
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.14em;
+  text-decoration-skip-ink: auto;
+}

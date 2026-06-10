@@ -1,0 +1,35 @@
+<!-- @dsCard group="Brand" viewport="700x330" name="Wordmark" subtitle="Geometric + humanist · the square i-tittle is the unit of measure" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: #0a0a0a; padding: 20px; display: flex; flex-direction: column; gap: 12px; font-family: var(--font-mono); }
+  .row { display: grid; gap: 12px; }
+  .r1 { grid-template-columns: repeat(4, 1fr); }
+  .r2 { grid-template-columns: repeat(3, 1fr); }
+  .tile { border-radius: var(--radius-sm); padding: 22px 18px 12px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 96px; overflow: hidden; }
+  .tile img { height: 26px; width: auto; max-width: 100%; }
+  .lab { font-weight: 700; font-size: 9.5px; text-transform: uppercase; letter-spacing: .12em; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- light pops on dark grounds (the core rule) -->
+    <div class="row r1">
+      <div class="tile" style="background:var(--uil-water)"><img src="../assets/logos/wordmark-sun.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-sun)">Sun / Water</span></div>
+      <div class="tile" style="background:var(--uil-sunset)"><img src="../assets/logos/wordmark-summer.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-summer)">Summer / Sunset</span></div>
+      <div class="tile" style="background:var(--uil-land)"><img src="../assets/logos/wordmark-sky.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-sky)">Sky / Land</span></div>
+      <div class="tile" style="background:var(--uil-earth)"><img src="../assets/logos/wordmark-jacaranda.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-jacaranda)">Jacaranda / Earth</span></div>
+    </div>
+    <!-- dark wordmarks inverted on light paper -->
+    <div class="row r2">
+      <div class="tile" style="background:var(--uil-paper)"><img src="../assets/logos/wordmark-land.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-land)">Land / Paper</span></div>
+      <div class="tile" style="background:var(--uil-paper)"><img src="../assets/logos/wordmark-sunset.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-sunset)">Sunset / Paper</span></div>
+      <div class="tile" style="background:var(--uil-paper)"><img src="../assets/logos/wordmark-water.svg" alt="UiLab wordmark"><span class="lab" style="color:var(--uil-water)">Water / Paper</span></div>
+    </div>
+  </div>
+</body>
+</html>

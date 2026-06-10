@@ -1,0 +1,115 @@
+/* ============================================================
+   UiLab — Colour System
+   ------------------------------------------------------------
+   "The base (background) colour must always be the darker tone,
+    and the foreground (text, logo, graphics) should be the
+    lighter tone." — UiLab Brand Guidelines, Colour System.
+
+   8 named brand colours, split into DARK GROUNDS and LIGHT POPS,
+   plus black & white. Hex/Pantone are taken verbatim from the
+   guidelines. The system is flat & duotone: pick one dark ground
+   and one light pop per surface.
+   ============================================================ */
+
+:root {
+  /* ---- Brand palette — DARK GROUNDS (use as backgrounds) ---- */
+  --uil-sunset:     #4C0027; /* Pantone 7650 C */
+  --uil-water:      #013053; /* Pantone 7693 C  · aka "Ocean" */
+  --uil-earth:      #421C01; /* Pantone 478 C   · aka "Soil"  */
+  --uil-land:       #025120; /* Pantone 356 C  */
+
+  /* Alias names used in event branding (same colours, friendlier names) */
+  --uil-ocean:      var(--uil-water); /* Ocean = Water navy  */
+  --uil-soil:       var(--uil-earth); /* Soil  = Earth brown */
+
+  /* ---- Brand palette — LIGHT POPS (use as foregrounds) ---- */
+  --uil-summer:     #FF6325; /* Pantone — (orange)        */
+  --uil-sky:        #67DAFF; /* Pantone 304 C             */
+  --uil-sun:        #FFCD0E; /* Pantone 113 C             */
+  --uil-jacaranda:  #DD60FF; /* Pantone Violet 0631 C     */
+
+  /* ---- Neutrals ---- */
+  --uil-black:      #000000;
+  --uil-white:      #FFFFFF;
+  --uil-paper:      #F4F1EC; /* warm off-white for rare light contexts */
+
+  /* ============================================================
+     CANONICAL DUOTONE PAIRINGS
+     Each ground has a "house" pop, but any dark+light combo is
+     valid as long as ground is dark and pop is light.
+     ============================================================ */
+  /* water   ground → sun  pop   (flagship: navy + yellow)  */
+  /* sunset  ground → summer pop (burgundy + orange)        */
+  /* land    ground → sky  pop   (forest + blue)            */
+  /* earth   ground → sun  pop   (brown + yellow)           */
+
+  /* ============================================================
+     SEMANTIC TOKENS — default theme = WATER ground / SUN pop
+     (the flagship navy+yellow pairing). Override these on a
+     scoped class (see theme scopes below) to re-skin any region.
+     ============================================================ */
+  --ground:            var(--uil-water);
+
+  /* Surfaces step UP from the ground with white overlays
+     (depth comes from layered tone, not heavy shadow). */
+  --surface:           color-mix(in srgb, var(--ground) 100%, transparent);
+  --surface-raised:    color-mix(in srgb, var(--ground), #ffffff 6%);
+  --surface-overlay:   color-mix(in srgb, var(--ground), #ffffff 11%);
+  --surface-sunken:    color-mix(in srgb, var(--ground), #000000 28%);
+
+  /* Foreground / text — the lighter tone */
+  --text:              var(--uil-white);
+  --text-muted:        color-mix(in srgb, var(--uil-white) 64%, var(--ground));
+  --text-faint:        color-mix(in srgb, var(--uil-white) 38%, var(--ground));
+
+  /* Accent / pop — the single vivid foreground colour */
+  --accent:            var(--uil-sun);
+  --accent-strong:     color-mix(in srgb, var(--uil-sun), #ffffff 12%);
+  --on-accent:         var(--uil-water); /* dark text on a pop fill */
+
+  /* Hairlines & dividers (low-alpha pop or white) */
+  --border:            color-mix(in srgb, var(--uil-white) 16%, transparent);
+  --border-strong:     color-mix(in srgb, var(--uil-white) 30%, transparent);
+  --border-accent:     color-mix(in srgb, var(--accent) 50%, transparent);
+
+  /* Tinted fills for chips/badges over the ground */
+  --fill-accent:       color-mix(in srgb, var(--accent) 16%, transparent);
+  --fill-subtle:       color-mix(in srgb, var(--uil-white) 7%, transparent);
+
+  /* Focus ring (always the pop, 2px offset — see effects.css) */
+  --ring:              var(--accent);
+
+  /* ---- Status (kept on-brand, used sparingly) ---- */
+  --status-go:      var(--uil-sky);     /* live / online  */
+  --status-warn:    var(--uil-sun);     /* attention      */
+  --status-stop:    var(--uil-summer);  /* error / closed */
+}
+
+/* ============================================================
+   THEME SCOPES — apply to any container to re-skin the duotone.
+   Foreground pop is auto-paired but can be overridden.
+   ============================================================ */
+.uil-water  { --ground: var(--uil-water);  --accent: var(--uil-sun);       --on-accent: var(--uil-water);  }
+.uil-sunset { --ground: var(--uil-sunset); --accent: var(--uil-summer);    --on-accent: var(--uil-sunset); }
+.uil-land   { --ground: var(--uil-land);   --accent: var(--uil-sky);       --on-accent: var(--uil-land);   }
+.uil-earth  { --ground: var(--uil-earth);  --accent: var(--uil-sun);       --on-accent: var(--uil-earth);  }
+.uil-black  { --ground: var(--uil-black);  --accent: var(--uil-jacaranda); --on-accent: var(--uil-black);  }
+
+/* Re-derive surfaces/text/border for every scope so a nested
+   theme fully re-skins (keeps the dark-base / light-pop rule). */
+.uil-water, .uil-sunset, .uil-land, .uil-earth, .uil-black {
+  --surface:         var(--ground);
+  --surface-raised:  color-mix(in srgb, var(--ground), #ffffff 6%);
+  --surface-overlay: color-mix(in srgb, var(--ground), #ffffff 11%);
+  --surface-sunken:  color-mix(in srgb, var(--ground), #000000 28%);
+  --text:            var(--uil-white);
+  --text-muted:      color-mix(in srgb, var(--uil-white) 64%, var(--ground));
+  --text-faint:      color-mix(in srgb, var(--uil-white) 38%, var(--ground));
+  --accent-strong:   color-mix(in srgb, var(--accent), #ffffff 12%);
+  --border:          color-mix(in srgb, var(--uil-white) 16%, transparent);
+  --border-strong:   color-mix(in srgb, var(--uil-white) 30%, transparent);
+  --border-accent:   color-mix(in srgb, var(--accent) 50%, transparent);
+  --fill-accent:     color-mix(in srgb, var(--accent) 16%, transparent);
+  --fill-subtle:     color-mix(in srgb, var(--uil-white) 7%, transparent);
+  --ring:            var(--accent);
+}

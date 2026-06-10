@@ -1,0 +1,27 @@
+<!-- @dsCard group="Colors" viewport="700x230" name="Duotone pairings" subtitle="Dark ground + one light pop — the core combinations" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: #0a0a0a; padding: 22px; }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .pair { aspect-ratio: 1 / 1; border-radius: var(--radius-sm); padding: 14px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,.08); }
+  .lab { font-family: var(--font-mono); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .14em; }
+  .glyph { font-family: var(--font-mono); font-weight: 700; font-size: 40px; line-height: 1; }
+  .nm { font-family: var(--font-mono); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row">
+      <div class="pair" style="background:var(--uil-water)"><div class="lab" style="color:var(--uil-sun)">Flagship</div><div class="glyph" style="color:var(--uil-sun)">Aa</div><div class="nm" style="color:var(--uil-sun)">Water / Sun</div></div>
+      <div class="pair" style="background:var(--uil-sunset)"><div class="lab" style="color:var(--uil-summer)">Warm</div><div class="glyph" style="color:var(--uil-summer)">Aa</div><div class="nm" style="color:var(--uil-summer)">Sunset / Summer</div></div>
+      <div class="pair" style="background:var(--uil-land)"><div class="lab" style="color:var(--uil-sky)">Cool</div><div class="glyph" style="color:var(--uil-sky)">Aa</div><div class="nm" style="color:var(--uil-sky)">Land / Sky</div></div>
+      <div class="pair" style="background:var(--uil-earth)"><div class="lab" style="color:var(--uil-sun)">Grounded</div><div class="glyph" style="color:var(--uil-sun)">Aa</div><div class="nm" style="color:var(--uil-sun)">Earth / Sun</div></div>
+    </div>
+  </div>
+</body>
+</html>

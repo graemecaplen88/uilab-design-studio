@@ -1,0 +1,27 @@
+<!-- @dsCard group="Spacing" viewport="700x200" name="6-column grid" subtitle="Square/web grid · combine cells in 2s & 3s · extends to 12" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: var(--uil-water); padding: 24px 30px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .col { height: 44px; background: color-mix(in srgb, var(--uil-sun) 16%, transparent); border: 1px solid color-mix(in srgb, var(--uil-sun) 40%, transparent); border-radius: 3px; }
+  .span { margin-top: 10px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .cell { height: 44px; background: var(--uil-sun); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 11px; color: var(--uil-water); letter-spacing: .08em; }
+  .c2 { grid-column: span 2; } .c3 { grid-column: span 3; } .c1 { grid-column: span 1; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="grid">
+      <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+    </div>
+    <div class="span">
+      <div class="cell c3">3</div><div class="cell c2">2</div><div class="cell c1">1</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!-- @dsCard group="Spacing" viewport="700x170" name="Radii — squared & tight" subtitle="Architectural corners from the square-tittle DNA" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: var(--uil-water); padding: 24px 30px; }
+  .row { display: flex; gap: 18px; }
+  .item { display: flex; flex-direction: column; gap: 9px; align-items: center; }
+  .box { width: 74px; height: 74px; background: transparent; border: 2px solid var(--uil-sun); border-bottom: 0; border-right: 0; }
+  .lab { font-family: var(--font-mono); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: #fff; }
+  .px { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.5); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row">
+      <div class="item"><div class="box" style="border-top-left-radius:var(--radius-none)"></div><div class="lab">None</div><div class="px">0</div></div>
+      <div class="item"><div class="box" style="border-top-left-radius:var(--radius-xs)"></div><div class="lab">XS</div><div class="px">2</div></div>
+      <div class="item"><div class="box" style="border-top-left-radius:var(--radius-sm)"></div><div class="lab">SM</div><div class="px">4</div></div>
+      <div class="item"><div class="box" style="border-top-left-radius:var(--radius)"></div><div class="lab">Base</div><div class="px">6</div></div>
+      <div class="item"><div class="box" style="border-top-left-radius:var(--radius-lg)"></div><div class="lab">LG</div><div class="px">10</div></div>
+      <div class="item"><div class="box" style="border-top-left-radius:var(--radius-pill)"></div><div class="lab">Pill</div><div class="px">999</div></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Core rule: dark base, light pop" subtitle="Background is always darker; foreground always lighter" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: #0a0a0a; padding: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ex { border-radius: var(--radius-sm); padding: 16px; height: 96px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+  .tag { font-family: var(--font-mono); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .14em; display: flex; align-items: center; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 999px; }
+  .big { font-family: var(--font-mono); font-weight: 700; font-size: 22px; }
+  .ok { border: 1px solid rgba(255,255,255,.12); }
+  .bad { border: 1px dashed rgba(255,99,37,.6); }
+  .strike { position:absolute; inset:0; }
+  .strike svg { width:100%; height:100%; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="ex ok" style="background:var(--uil-sunset)">
+      <div class="tag" style="color:var(--uil-summer)"><span class="dot" style="background:var(--uil-summer)"></span>Correct</div>
+      <div class="big" style="color:var(--uil-summer)">Aa → light on dark</div>
+    </div>
+    <div class="ex bad" style="background:var(--uil-summer)">
+      <div class="tag" style="color:var(--uil-sunset)"><span class="dot" style="background:var(--uil-sunset)"></span>Incorrect</div>
+      <div class="big" style="color:var(--uil-sunset)">Aa → dark on light</div>
+      <div class="strike"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="2" y1="98" x2="98" y2="2" stroke="#4C0027" stroke-width="1.2"/></svg></div>
+    </div>
+  </div>
+</body>
+</html>

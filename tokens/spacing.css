@@ -1,0 +1,44 @@
+/* ============================================================
+   UiLab — Spacing & Layout
+   ------------------------------------------------------------
+   Modular spacing on a 4pt base (guidelines: "modular spacing
+   system based on 4pt increments"). 6-column grid for square
+   /wide formats (extends to 12), 4-column for vertical formats.
+   ============================================================ */
+
+:root {
+  /* 4pt spacing scale */
+  --space-0:   0;
+  --space-1:   0.25rem;  /*  4px */
+  --space-2:   0.5rem;   /*  8px */
+  --space-3:   0.75rem;  /* 12px */
+  --space-4:   1rem;     /* 16px */
+  --space-5:   1.5rem;   /* 24px */
+  --space-6:   2rem;     /* 32px */
+  --space-7:   3rem;     /* 48px */
+  --space-8:   4rem;     /* 64px */
+  --space-9:   6rem;     /* 96px */
+  --space-10:  8rem;     /* 128px */
+
+  /* Layout */
+  --grid-cols:   6;      /* @kind other */
+  --grid-cols-v: 4;      /* @kind other */
+  --gutter:      var(--space-5);
+  --container:   1200px; /* 6-col max content width             */
+  --container-narrow: 760px;
+  --page-margin: clamp(1.25rem, 5vw, 5rem);
+}
+
+/* 6-column grid helper (square / web). Combine cells in 2s & 3s. */
+.uil-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  gap: var(--gutter);
+}
+/* 4-column grid helper (vertical / editorial) */
+.uil-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols-v), minmax(0, 1fr));
+  gap: var(--gutter);
+}
+.uil-container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--page-margin); }

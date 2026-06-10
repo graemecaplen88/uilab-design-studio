@@ -1,0 +1,26 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Surface steps" subtitle="Depth from layered tone, not heavy shadow" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: var(--uil-water); padding: 22px; font-family: var(--font-mono); }
+  .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+  .step { height: 92px; padding: 12px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .nm { color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+  .v { color: rgba(255,255,255,.55); font-size: 10px; margin-top: 3px; }
+</style>
+</head>
+<body>
+  <div class="wrap uil-water">
+    <div class="row">
+      <div class="step" style="background:var(--surface-sunken)"><div class="nm">Sunken</div><div class="v">−28% L</div></div>
+      <div class="step" style="background:var(--surface)"><div class="nm">Ground</div><div class="v">base</div></div>
+      <div class="step" style="background:var(--surface-raised)"><div class="nm">Raised</div><div class="v">+6% L</div></div>
+      <div class="step" style="background:var(--surface-overlay)"><div class="nm">Overlay</div><div class="v">+11% L</div></div>
+    </div>
+  </div>
+</body>
+</html>

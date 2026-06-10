@@ -1,0 +1,52 @@
+/* ============================================================
+   UiLab — Effects: radii, borders, shadows, motion
+   ------------------------------------------------------------
+   The brand is geometric & modular — the "i" tittle is a SQUARE.
+   Radii stay tight and architectural. Depth comes from layered
+   tone + hairlines, not heavy shadow. Motion is crisp, short,
+   ease-out; no bounce, no decorative loops.
+   ============================================================ */
+
+:root {
+  /* Radii — tight & squared (square tittle DNA) */
+  --radius-none: 0px;
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius:      6px;
+  --radius-lg:   10px;
+  --radius-pill: 999px;  /* status dots, avatars, the rare chip */
+
+  /* Border widths */
+  --bw-hair:  1px;   /* @kind spacing */
+  --bw:       1.5px; /* @kind spacing */
+  --bw-bold:  2px;   /* @kind spacing */
+
+  /* Shadows — restrained, deep & cool (sit over dark grounds) */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.40), 0 1px 4px rgba(0,0,0,0.24);
+  --shadow:    0 4px 14px rgba(0,0,0,0.42), 0 1px 3px rgba(0,0,0,0.30);
+  --shadow-lg: 0 18px 48px rgba(0,0,0,0.52), 0 4px 12px rgba(0,0,0,0.36);
+  /* Pop glow — a single subtle accent radial behind focal elements */
+  --glow-accent: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent),
+                 0 8px 40px color-mix(in srgb, var(--accent) 22%, transparent);
+
+  /* Motion — crisp & mechanical */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);    /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --dur-fast: 120ms; /* @kind other */
+  --dur:      200ms; /* @kind other */
+  --dur-slow: 280ms; /* @kind other */
+
+  /* Focus ring — 2px pop, offset */
+  --focus-ring: 0 0 0 2px var(--ground), 0 0 0 4px var(--ring);
+}
+
+/* Lit top edge for cards (a faint highlight, no loud gradient) */
+.uil-lit-edge { box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--uil-white) 10%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms; /* @kind other */
+    --dur: 0ms;      /* @kind other */
+    --dur-slow: 0ms; /* @kind other */
+  }
+}
