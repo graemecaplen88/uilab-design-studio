@@ -1,0 +1,63 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Card · Tag · Avatar · Status" subtitle="Surfaces, chips, initials marks and status pips" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; }
+  .wrap { background: var(--uil-water); padding: 26px 28px; }
+  .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .rowflex { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .cap { font-family: var(--font-mono); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .14em; color: rgba(255,255,255,.42); margin-bottom: 10px; }
+  p { font-family: var(--font-display); font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.72); margin: 0; }
+</style>
+</head>
+<body class="uil-water">
+  <div class="wrap">
+    <div id="root"></div>
+  </div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Card, Tag, Avatar, StatusDot } = window.UiLabDesignSystem_b96795;
+    function Demo() {
+      return (
+        <div className="grid">
+          <Card eyebrow="Events / 04" title="Emerging technology over lunch">
+            <p>An intimate series where your innovation meets city action.</p>
+            <div className="rowflex" style={{marginTop:16}}>
+              <Tag variant="soft">Community</Tag>
+              <Tag variant="solid" tone="sun">Live</Tag>
+              <Tag variant="outline" tone="sky">Workshop</Tag>
+            </div>
+          </Card>
+          <div className="stack">
+            <div>
+              <div className="cap">Avatars</div>
+              <div className="rowflex">
+                <Avatar initials="UC" />
+                <Avatar initials="SM" tone="sky" />
+                <Avatar initials="MR" tone="summer" shape="circle" />
+                <Avatar initials="AI" tone="jacaranda" />
+              </div>
+            </div>
+            <div>
+              <div className="cap">Status</div>
+              <div className="stack" style={{gap:9}}>
+                <StatusDot status="go" pulse>Live now</StatusDot>
+                <StatusDot status="warn">Filling fast</StatusDot>
+                <StatusDot status="stop">Closed</StatusDot>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+  </script>
+</body>
+</html>
