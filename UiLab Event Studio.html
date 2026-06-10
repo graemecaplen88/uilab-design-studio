@@ -1,0 +1,253 @@
+<!-- UiLab Event Studio — input event details once, populate every template, edit inline, export print/web ready. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UiLab Event Studio</title>
+<link rel="stylesheet" href="styles.css">
+<style id="pagestyle"></style>
+<style>
+  :root { --bd: rgba(255,255,255,.12); }
+  html, body { margin: 0; height: 100%; background: #0c0c0e; color: #e8e8ea; font-family: var(--font-mono); }
+  * { box-sizing: border-box; }
+  #app { display: grid; grid-template-columns: 320px 1fr; height: 100vh; }
+
+  /* ---------- sidebar (event-info form) ---------- */
+  #sidebar { background: #141417; border-right: 1px solid var(--bd); display: flex; flex-direction: column; min-height: 0; }
+  #sidebar .hd { padding: 16px 18px 12px; border-bottom: 1px solid var(--bd); }
+  #sidebar .hd h1 { font-family: var(--font-display); font-weight: 700; font-size: 18px; margin: 0; letter-spacing: -.01em; }
+  #sidebar .hd p { font-size: 11px; color: #8a8a8e; margin: 6px 0 0; line-height: 1.5; letter-spacing: .02em; }
+  #form { padding: 14px 18px 24px; overflow: auto; flex: 1; }
+  .fld { display: block; margin-bottom: 13px; }
+  .fld span { display: block; font-weight: 700; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #8a8a8e; margin-bottom: 5px; }
+  .fld input, .fld textarea { width: 100%; background: #0c0c0e; border: 1px solid var(--bd); border-radius: 5px; color: #fff;
+    font-family: var(--font-display); font-size: 14px; padding: 9px 10px; outline: none; resize: vertical; }
+  .fld input:focus, .fld textarea:focus { border-color: #67DAFF; }
+
+  /* ---------- main ---------- */
+  #main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  #chrome { border-bottom: 1px solid var(--bd); background: #141417; padding: 10px 16px; display: flex; flex-direction: column; gap: 9px; }
+  .barrow { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+  .barrow .lbl { font-weight: 700; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: #6f6f74; width: 52px; flex: none; }
+  #events button, #formats button { font-family: var(--font-mono); font-weight: 700; font-size: 10.5px; letter-spacing: .06em;
+    text-transform: uppercase; padding: 7px 11px; border-radius: 5px; border: 1px solid var(--bd); background: transparent; color: #cfcfd2;
+    cursor: pointer; transition: all .14s ease; display: inline-flex; flex-direction: column; gap: 2px; line-height: 1.1; }
+  #formats button small { font-weight: 500; font-size: 8.5px; color: #76767a; letter-spacing: .02em; }
+  #events button:hover, #formats button:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+  #events button.on, #formats button.on { background: #fff; color: #111; border-color: #fff; }
+  #formats button.on small { color: #555; }
+
+  #chips { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; min-height: 30px; }
+  #chips .grp { display: flex; gap: 6px; align-items: center; }
+  #chips .glbl { font-weight: 700; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #6f6f74; }
+  #chips .sw { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-weight: 700; font-size: 9.5px;
+    letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px 4px 5px; border-radius: 999px; border: 1px solid var(--bd);
+    background: transparent; color: #bdbdc0; cursor: pointer; }
+  #chips .sw.on { border-color: #fff; color: #fff; background: rgba(255,255,255,.08); }
+  #chips .dot { width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); }
+  #chips .none { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #6f6f74; }
+  #variant { display: flex; gap: 6px; align-items: center; }
+  #variant .glbl { font-weight: 700; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #6f6f74; margin-left: 8px; }
+  #variant button { font-family: var(--font-mono); font-weight: 700; font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px; border: 1px solid var(--bd); background: transparent; color: #bdbdc0; cursor: pointer; }
+  #variant button.on { border-color: #67DAFF; color: #fff; background: rgba(103,218,255,.14); }
+
+  .spacer { flex: 1; }
+  .xbtn { font-family: var(--font-mono); font-weight: 700; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 8px 13px; border-radius: 5px; border: 1px solid var(--bd); background: transparent; color: #cfcfd2; cursor: pointer; }
+  .xbtn:hover { border-color: rgba(255,255,255,.45); color: #fff; }
+  .xbtn.primary { background: #67DAFF; color: #013053; border-color: #67DAFF; }
+  .xbtn.primary:hover { background: #8fe6ff; }
+  #meta { font-size: 10px; color: #76767a; letter-spacing: .05em; margin-left: 6px; }
+
+  /* ---------- stage ---------- */
+  #stage { flex: 1; position: relative; overflow: auto; display: grid; place-items: center; padding: 40px; background:
+    repeating-conic-gradient(#171719 0% 25%, #131315 0% 50%) 50% / 28px 28px; }
+  #artboard { position: relative; }
+  #artboard [data-ab] { transform-origin: top left; box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+
+  /* ============================================================
+     ARTBOARD — faithful reproduction of the master template.
+     All sizes scale by --u (set per format in render.js).
+     ============================================================ */
+  .ab { position: relative; overflow: hidden; background: var(--g); color: var(--p);
+        font-family: var(--font-display); }
+  .ab .bgdiv { position: absolute; left: -34%; top: -30%; width: 110%; height: 120%;
+    background: url("assets/graphics/logan-divisions.png") no-repeat left top / contain; opacity: .07;
+    filter: brightness(0) invert(1); pointer-events: none; }
+
+  /* tall & print formats: let the divisions graphic fill more of the open space */
+  .ab.fmt-ig-story .bgdiv { left: -16%; top: 34%; width: 132%; height: 58%;
+    background-position: center; opacity: .10; }
+  .ab.fmt-a4 .bgdiv, .ab.fmt-a5 .bgdiv, .ab.fmt-dl .bgdiv {
+    left: -18%; top: auto; bottom: -10%; width: 140%; height: 66%;
+    background-position: center bottom; opacity: .10; }
+  .ab .pad { position: absolute; inset: 0; padding: calc(var(--u) * 38px); display: flex; flex-direction: column; }
+
+  .ab .eyebrow { display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    font-family: var(--font-mono); font-weight: 700; text-transform: uppercase;
+    font-size: calc(var(--u) * 24px); letter-spacing: .12em; color: var(--p); }
+  .ab .eyl { white-space: nowrap; }
+  .ab .eyr { white-space: nowrap; }
+
+  .ab .head { display: flex; gap: calc(var(--u) * 28px); align-items: flex-start; margin-top: calc(var(--u) * 44px); }
+  .ab .hname { flex: 1; font-weight: 700; font-size: calc(var(--u) * 116px); line-height: .92; letter-spacing: -.03em; color: var(--p); }
+  .ab .ph { position: relative; width: calc(var(--u) * 390px); height: calc(var(--u) * 362px); flex: none;
+    background: color-mix(in srgb, var(--p) 16%, var(--g)); overflow: hidden; cursor: pointer; }
+  .ab .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ab .ph .phhint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 8px;
+    font-family: var(--font-mono); font-weight: 700; font-size: calc(var(--u) * 13px); letter-spacing: .1em; text-transform: uppercase;
+    color: var(--p); opacity: 0; }
+  .ab .ph img[src=""] + .phhint, .ab .ph:not(:has(img[src])) .phhint { opacity: .8; }
+
+  .ab .desc { font-weight: 400; font-size: calc(var(--u) * 37px); line-height: 1.18; color: var(--p); margin-top: calc(var(--u) * 40px); }
+  .ab .grow { flex: 1 1 auto; min-height: calc(var(--u) * 24px); }
+
+  .ab .grid { display: flex; flex-direction: column; }
+  .ab .row { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 24px); align-items: start;
+    padding: calc(var(--u) * 10px) 0; border-bottom: max(1px, calc(var(--u) * 1px)) solid color-mix(in srgb, var(--p) 75%, transparent); }
+  .ab .row:first-child { border-top: max(1px, calc(var(--u) * 1px)) solid color-mix(in srgb, var(--p) 75%, transparent); }
+  .ab .gv { font-weight: 400; font-size: calc(var(--u) * 34px); line-height: 1.18; color: var(--p); }
+
+  .ab .cta { font-family: var(--font-mono); font-weight: 700; font-size: calc(var(--u) * 22px); letter-spacing: .08em;
+    color: var(--p); margin-top: calc(var(--u) * 22px); }
+
+  .ab .foot { display: flex; align-items: flex-end; justify-content: space-between; gap: calc(var(--u) * 20px); margin-top: calc(var(--u) * 30px); }
+  .ab .footL { display: flex; align-items: center; gap: calc(var(--u) * 18px); min-width: 0; }
+  .ab .lock { display: flex; align-items: center; gap: calc(var(--u) * 18px); flex: none; }
+  .ab .lock .word { height: calc(var(--u) * 47px); }
+  .ab .lock .mark { height: calc(var(--u) * 61px); }
+  .ab .partner { height: calc(var(--u) * 70px); flex: none; }
+
+  /* sponsor / partner logo slots (right of the UiLab lockup) */
+  .ab .sponsors { display: flex; align-items: center; gap: calc(var(--u) * 10px); flex-wrap: wrap; }
+  .ab .spon { height: calc(var(--u) * 60px); background: #fff; border-radius: calc(var(--u) * 6px);
+    padding: calc(var(--u) * 7px) calc(var(--u) * 11px); display: flex; align-items: center; cursor: pointer;
+    box-shadow: 0 calc(var(--u)*2px) calc(var(--u)*6px) rgba(0,0,0,.25); }
+  .ab .spon img { height: 100%; width: auto; max-width: calc(var(--u) * 200px); object-fit: contain; display: block; }
+
+  /* ---- REMIX (divisions-masked hero photo: IG Portrait/Story · A4/A5/DL) ---- */
+  .ab.remix .bgdiv { display: none; }
+  .ab.remix .hname { display: block; font-size: calc(var(--u) * 120px); line-height: .9; letter-spacing: -.03em; margin-top: calc(var(--u) * 30px); }
+  .ab.remix .desc { font-size: calc(var(--u) * 38px); line-height: 1.18; margin-top: calc(var(--u) * 22px); }
+  .ab .divmask { position: relative; flex: 1 1 auto; min-height: calc(var(--u) * 300px);
+    margin: calc(var(--u) * 22px) calc(var(--u) * -150px); overflow: visible; cursor: pointer; }
+  .ab .divmask .dmimg { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .ab .divmask .phhint { position: absolute; left: 50%; bottom: calc(var(--u) * 16px); transform: translateX(-50%);
+    font-family: var(--font-mono); font-weight: 700; font-size: calc(var(--u) * 16px); letter-spacing: .12em;
+    text-transform: uppercase; color: var(--g); background: var(--p); padding: calc(var(--u)*7px) calc(var(--u)*12px);
+    border-radius: calc(var(--u)*3px); white-space: nowrap; }
+  .ab.remix .grid { margin-top: 0; }
+  .ab.remix .row { grid-template-columns: 1fr 1fr; padding: calc(var(--u) * 16px) 0; }
+  .ab.remix .gcell { display: flex; flex-direction: column; }
+  .ab.remix .glabel { font-family: var(--font-mono); font-weight: 700; font-size: calc(var(--u) * 16px);
+    letter-spacing: .14em; text-transform: uppercase; color: color-mix(in srgb, var(--p) 62%, var(--g)); margin-bottom: calc(var(--u) * 5px); }
+  .ab.remix .gv { font-size: calc(var(--u) * 40px); }
+  .ab .ctabar { display: block; background: var(--p); color: var(--g); font-family: var(--font-mono); font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em; font-size: calc(var(--u) * 30px); line-height: 1.1;
+    padding: calc(var(--u) * 24px) calc(var(--u) * 30px); margin-top: calc(var(--u) * 26px); border-radius: calc(var(--u) * 4px); }
+
+  /* ---- SPLIT layout (LinkedIn / Facebook / Humanitix) — division-overlay bg ---- */
+  .ab.split { background: var(--g); }
+  .ab.split .divov { position: absolute; pointer-events: none; }
+  .ab.split .divtop { top: calc(var(--u) * -120px); right: calc(var(--u) * -80px); width: calc(var(--u) * 620px); height: auto; }
+  .ab.split .divbot { bottom: calc(var(--u) * -150px); left: calc(var(--u) * -90px); width: calc(var(--u) * 540px); height: auto; }
+  .ab.split .splitpad { position: absolute; left: 0; right: 0; top: 0; bottom: calc(var(--u) * 130px); padding: calc(var(--u) * 56px) calc(var(--u) * 56px) 0;
+    display: flex; gap: calc(var(--u) * 56px); align-items: stretch; }
+  .ab.split .phcol { width: 42%; flex: none; }
+  .ab.split .phrect { position: relative; width: 100%; height: 100%; overflow: hidden; background: color-mix(in srgb, var(--p) 14%, var(--g)); cursor: pointer; }
+  .ab.split .phrect img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ab.split .phrect .phhint { position: absolute; inset: 0; display: grid; place-items: center; text-align: center;
+    font-family: var(--font-mono); font-weight: 700; font-size: calc(var(--u) * 14px); letter-spacing: .1em;
+    text-transform: uppercase; color: var(--p); opacity: 0; }
+  .ab.split .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+  .ab.split .eyebrow { font-size: calc(var(--u) * 20px); gap: calc(var(--u) * 16px); }
+  .ab.split .hname { flex: none; font-weight: 700; font-size: calc(var(--u) * 76px); line-height: .96;
+    letter-spacing: -.02em; margin-top: calc(var(--u) * 18px); }
+  .ab.split .grid { margin-top: calc(var(--u) * 36px); }
+  .ab.split .row { padding: calc(var(--u) * 12px) 0; gap: calc(var(--u) * 24px); }
+  .ab.split .gv { font-size: calc(var(--u) * 30px); line-height: 1.12; }
+  .ab.split .splitfooter { position: absolute; left: calc(var(--u) * 56px); right: calc(var(--u) * 56px);
+    bottom: calc(var(--u) * 40px); display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 20px); }
+  .ab.split .splitfooter .partner { height: calc(var(--u) * 56px); flex: none; }
+  .ab.split .splitfooter .centerlock { display: flex; align-items: center; gap: calc(var(--u) * 16px); }
+  .ab.split .splitfooter .word { height: calc(var(--u) * 40px); }
+  .ab.split .splitfooter .brand { height: calc(var(--u) * 56px); flex: none; }
+  .ab.split .splitfooter .spon { height: calc(var(--u) * 46px); }
+
+  /* ---- AD (IG Ad Square / Story) ---- */
+  .ab.ad { background: var(--g); }
+  .ab.ad .hname { display: block; font-weight: 700; font-size: calc(var(--u) * 128px); line-height: .92;
+    letter-spacing: -.03em; color: var(--p); margin-top: calc(var(--u) * 40px); }
+  .ab.fmt-ig-ad-square .hname { font-size: calc(var(--u) * 96px); }
+  .ab.ad .addesc { display: block; font-weight: 500; font-size: calc(var(--u) * 44px); line-height: 1.18;
+    color: var(--p); margin-top: calc(var(--u) * 36px); }
+  .ab.fmt-ig-ad-square .addesc { font-size: calc(var(--u) * 38px); }
+  .ab.ad .adbottom { display: flex; align-items: flex-end; justify-content: space-between; gap: calc(var(--u) * 28px); }
+  .ab.ad .adbottom .footL { flex: none; display: flex; align-items: center; gap: calc(var(--u) * 16px); }
+  .ab.ad .adbottom .word { height: calc(var(--u) * 48px); }
+  .ab.ad .adbottom .mark { height: calc(var(--u) * 60px); }
+  .ab.ad .adbtn { flex: 0 1 auto; max-width: 52%; display: inline-block; background: var(--p); color: var(--g); font-family: var(--font-mono);
+    font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: calc(var(--u) * 40px); line-height: 1.1;
+    padding: calc(var(--u) * 28px) calc(var(--u) * 44px); text-align: center; }
+
+  /* ---- TEXT (no photo) ---- */
+  .ab.text .hname { display: block; }
+
+  /* ---- OVERLAY (full-bleed photo + ground tint) ---- */
+  .ab.overlay { background: var(--g); }
+  .ab.overlay .ovphoto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+  .ab.overlay .ovtint { position: absolute; inset: 0; background: var(--g); opacity: .82; pointer-events: none; }
+  .ab.overlay .bgdiv { opacity: .08; }
+  .ab.overlay .pad { z-index: 1; }
+  .ab.overlay .hname { display: block; }
+
+  /* overlay on landscape (LinkedIn / Facebook / Humanitix): compact type to fit short height */
+  .ab.overlay.fmt-linkedin .hname, .ab.overlay.fmt-facebook .hname, .ab.overlay.fmt-humanitix .hname { font-size: calc(var(--u) * 62px); line-height: .98; }
+  .ab.overlay.fmt-linkedin .desc, .ab.overlay.fmt-facebook .desc, .ab.overlay.fmt-humanitix .desc { font-size: calc(var(--u) * 26px); margin-top: calc(var(--u) * 16px); }
+  .ab.overlay.fmt-linkedin .row, .ab.overlay.fmt-facebook .row, .ab.overlay.fmt-humanitix .row { padding: calc(var(--u) * 7px) 0; }
+  .ab.overlay.fmt-linkedin .gv, .ab.overlay.fmt-facebook .gv, .ab.overlay.fmt-humanitix .gv { font-size: calc(var(--u) * 24px); }
+  .ab.overlay.fmt-linkedin .eyebrow, .ab.overlay.fmt-facebook .eyebrow, .ab.overlay.fmt-humanitix .eyebrow { font-size: calc(var(--u) * 18px); }
+
+  body.exporting #stage { overflow: visible; }
+</style>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="hd">
+        <h1>Event Studio</h1>
+        <p>Enter the details once — every template fills in. Pick an event &amp; format, tweak text inline, then export.</p>
+      </div>
+      <div id="form"></div>
+    </aside>
+
+    <div id="main">
+      <div id="chrome">
+        <div class="barrow"><span class="lbl">Event</span><span id="events"></span></div>
+        <div class="barrow"><span class="lbl">Format</span><span id="formats"></span></div>
+        <div class="barrow">
+          <span class="lbl">Palette</span><span id="chips"></span>
+          <span id="variant"></span>
+          <span class="spacer"></span>
+          <span id="meta"></span>
+          <button class="xbtn" id="btnPhoto">Photo</button>
+          <button class="xbtn" id="btnSponsor">+ Sponsor</button>
+          <button class="xbtn" id="btnReset">Reset edits</button>
+          <button class="xbtn" id="btnPdf">Download PDF</button>
+          <button class="xbtn" id="btnPrint">Print-ready</button>
+          <button class="xbtn primary" id="btnPng">Download PNG</button>
+        </div>
+      </div>
+      <div id="stage"><div id="artboard"></div></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="event-studio/data.js"></script>
+  <script src="event-studio/render.js"></script>
+  <script src="event-studio/studio.js"></script>
+</body>
+</html>

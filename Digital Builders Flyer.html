@@ -1,0 +1,130 @@
+<!-- Digital Builders — sample flyer (A4). Built to test guidelines/event-playbook.md → "Digital Builders". -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Builders Hackathon — flyer</title>
+<link rel="stylesheet" href="styles.css">
+<script src="ui_kits/flyers/image-slot.js"></script>
+<style>
+  :root { --sky: #67DAFF; }
+  html, body { margin: 0; background: #04130a; }
+  * { box-sizing: border-box; }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; overflow: auto; }
+  #flyer {
+    width: 1240px; height: 1754px; flex: none;
+    background: var(--uil-land);
+    color: var(--sky);
+    position: relative; overflow: hidden;
+    font-family: var(--font-display);
+    transform-origin: center center;
+  }
+  .pad { position: absolute; inset: 0; padding: 90px; display: flex; flex-direction: column; }
+
+  /* eyebrow */
+  .eyebrow { display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--font-mono); font-weight: 700; font-size: 22px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--sky); }
+
+  /* headline — two lines, second pushed right */
+  .headline { margin-top: 64px; font-weight: 700; font-size: 150px; line-height: 0.92;
+    letter-spacing: -0.03em; color: var(--sky); }
+  .headline .l2 { display: block; text-align: right; }
+
+  /* intro */
+  .intro { margin-top: 56px; font-weight: 700; font-size: 33px; line-height: 1.22;
+    color: var(--sky); max-width: 22ch; }
+  .intro em { font-style: normal; color: #ffffff; }
+
+  /* middle: photo + info */
+  .middle { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .photo-mask {
+    width: 100%; aspect-ratio: 470 / 540;
+    -webkit-mask: url("assets/graphics/logan-divisions.png") center / contain no-repeat;
+            mask: url("assets/graphics/logan-divisions.png") center / contain no-repeat;
+  }
+  .photo-mask image-slot { width: 100%; height: 100%; display: block; }
+
+  .info { display: flex; flex-direction: column; }
+  .info .ititle { font-family: var(--font-mono); font-weight: 700; font-size: 20px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); margin-bottom: 22px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    font-weight: 500; font-size: 27px; line-height: 1.15; color: var(--sky);
+    padding: 16px 0; border-top: 1.5px solid color-mix(in srgb, var(--sky) 45%, transparent); }
+  .row:last-of-type { border-bottom: 1.5px solid color-mix(in srgb, var(--sky) 45%, transparent); }
+  .row .k { font-family: var(--font-mono); font-weight: 700; font-size: 18px;
+    letter-spacing: 0.1em; text-transform: uppercase; align-self: center;
+    color: color-mix(in srgb, var(--sky) 78%, var(--uil-water)); }
+
+  /* CTA */
+  .cta { margin-top: 44px; display: grid; grid-template-columns: 1fr 232px; gap: 40px; align-items: center; }
+  .scan { font-weight: 700; font-size: 30px; line-height: 1.25; color: var(--uil-jacaranda); max-width: 18ch; }
+  .qr { width: 232px; height: 232px; background: #fff; border-radius: 8px;
+    display: grid; place-items: center; }
+  .qr image-slot { width: 200px; height: 200px; display: block; }
+
+  /* footer */
+  .footer { margin-top: 48px; display: flex; align-items: flex-end; justify-content: space-between; }
+  .partners { display: flex; align-items: center; gap: 30px; }
+  .partners image-slot { height: 56px; width: 130px; display: block; }
+  .lockup { display: flex; align-items: center; gap: 22px; }
+  .lockup .word { height: 34px; }
+  .lockup .mark { height: 52px; }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div id="flyer">
+      <div class="pad">
+        <div class="eyebrow"><span>UiLab's 2026 Events</span><span>UILAB.COM.AU</span></div>
+
+        <div class="headline">Digital Builders<span class="l2">Hackathon</span></div>
+
+        <div class="intro">Ever dreamt of building the next <em>viral app</em>? Team up, vibe-code it in a day — <em>zero experience needed</em>.</div>
+
+        <div class="middle">
+          <div class="photo-mask">
+            <image-slot id="db-photo" fit="cover" placeholder="Drop a hackathon photo"></image-slot>
+          </div>
+          <div class="info">
+            <div class="ititle">Full-day hackathon</div>
+            <div class="row"><span>Thursday 30 October</span><span>9:00am — 2:00pm</span></div>
+            <div class="row"><span class="k">Where</span><span>Griffith University, Meadowbrook</span></div>
+            <div class="row"><span class="k">Year</span><span>10 – 11 students</span></div>
+            <div class="row"><span class="k">Bring</span><span>Curiosity &amp; teamwork — no coding needed</span></div>
+            <div class="row"><span class="k">Cost</span><span>Free for booked schools</span></div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <div class="scan">Scan the QR code to book Digital Builders for your school!</div>
+          <div class="qr"><image-slot id="db-qr" fit="contain" placeholder="QR"></image-slot></div>
+        </div>
+
+        <div class="footer">
+          <div class="partners">
+            <image-slot id="db-p1" fit="contain" placeholder="Partner"></image-slot>
+            <image-slot id="db-p2" fit="contain" placeholder="School"></image-slot>
+            <image-slot id="db-p3" fit="contain" placeholder="Sponsor"></image-slot>
+          </div>
+          <div class="lockup">
+            <img class="word" src="assets/logos/wordmark-sky.svg" alt="UiLab">
+            <img class="mark" src="assets/logos/brandmark-sky.svg" alt="UiLab brandmark">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function fit() {
+      const f = document.getElementById('flyer');
+      const pad = 32;
+      const s = Math.min((innerWidth - pad) / 1240, (innerHeight - pad) / 1754);
+      f.style.transform = 'scale(' + Math.min(s, 1) + ')';
+    }
+    addEventListener('resize', fit); fit();
+  </script>
+</body>
+</html>

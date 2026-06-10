@@ -1,0 +1,259 @@
+<!-- UiLab Event Tiles — test surface for guidelines/event-playbook.md. Switch event types to preview each recipe. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UiLab Event Tiles</title>
+<link rel="stylesheet" href="styles.css">
+<script src="ui_kits/flyers/image-slot.js"></script>
+<style>
+  html, body { margin: 0; background: #0c0c0e; font-family: var(--font-mono); }
+  * { box-sizing: border-box; }
+
+  /* chooser bar */
+  #bar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; gap: 8px;
+    align-items: center; flex-wrap: wrap; padding: 12px 16px; background: #141417;
+    border-bottom: 1px solid rgba(255,255,255,.1); }
+  #bar .lbl { font-weight: 700; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #888; margin-right: 4px; }
+  #bar button { font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: .08em;
+    text-transform: uppercase; padding: 8px 12px; border-radius: 5px; border: 1px solid rgba(255,255,255,.16);
+    background: transparent; color: #cfcfcf; cursor: pointer; transition: all .15s ease; }
+  #bar button:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+  #bar button.on { background: #fff; color: #111; border-color: #fff; }
+
+  /* options row (ground / pop toggles) */
+  #opts { position: fixed; top: 64px; left: 0; right: 0; z-index: 49; display: flex; gap: 18px;
+    align-items: center; flex-wrap: wrap; padding: 10px 16px; background: #0f0f12;
+    border-bottom: 1px solid rgba(255,255,255,.08); min-height: 44px; }
+  #opts .grp { display: flex; gap: 7px; align-items: center; }
+  #opts .glbl { font-family: var(--font-mono); font-weight: 700; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #777; }
+  #opts .sw { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-weight: 700;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 5px 9px 5px 6px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.16); background: transparent; color: #bdbdbd; cursor: pointer; transition: all .15s ease; }
+  #opts .sw:hover { border-color: rgba(255,255,255,.4); color: #fff; }
+  #opts .sw.on { border-color: #fff; color: #fff; background: rgba(255,255,255,.08); }
+  #opts .dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); }
+  #opts .none { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #666; }
+
+  #stage { position: fixed; inset: 108px 0 0 0; display: grid; place-items: start center; overflow: auto; padding: 24px; }
+
+  /* tile canvas — 1080×1350 portrait social */
+  #tile { width: 1080px; height: 1350px; flex: none; position: relative; overflow: hidden;
+    background: var(--g); color: var(--p); font-family: var(--font-display); transform-origin: top center; }
+  .pad { position: absolute; inset: 0; padding: 56px; display: flex; flex-direction: column; }
+
+  /* eyebrow */
+  .eyebrow { display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--font-mono); font-weight: 700; font-size: 24px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--p); z-index: 3; }
+
+  /* photo masked into divisions (default + automation) */
+  .photo { position: absolute; left: 0; right: 0; top: 90px; height: 560px; z-index: 1; }
+  .photo .mask { position: absolute; inset: 0 40px;
+    -webkit-mask: var(--divmask) center / contain no-repeat; mask: var(--divmask) center / contain no-repeat; }
+  .photo image-slot { width: 100%; height: 100%; display: block; }
+
+  /* headline + body block (bottom) */
+  .block { margin-top: auto; position: relative; z-index: 3; }
+  .headline { font-weight: 700; font-size: var(--hsize, 78px); line-height: .96; letter-spacing: -.02em; color: var(--p); white-space: pre-line; }
+  .headline.underline { font-weight: 500; text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 8px; text-decoration-skip-ink: auto; }
+  .headline.right .l2 { display: block; text-align: right; }
+  .body { font-weight: 500; font-size: 33px; line-height: 1.16; color: var(--p); margin-top: 28px; white-space: pre-line; max-width: 30ch; }
+  .body em { font-style: normal; color: #fff; }
+
+  /* teacher: tip steps */
+  .tips { display: flex; flex-direction: column; gap: 22px; margin-top: 30px; }
+  .tip { font-weight: 500; font-size: 30px; line-height: 1.12; color: var(--p); white-space: pre-line; }
+
+  /* right column photo (teacher) */
+  .rightcol { position: absolute; right: 0; top: 0; bottom: 0; width: 460px; z-index: 1; }
+  .rightcol image-slot { width: 100%; height: 100%; display: block; }
+
+  /* full bleed photo (industry) */
+  .fullbleed { position: absolute; inset: 0; z-index: 0; }
+  .fullbleed image-slot { width: 100%; height: 100%; display: block; }
+  .fullbleed::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--g) 35%, transparent), color-mix(in srgb, var(--g) 88%, transparent)); }
+
+  /* footer */
+  .footer { margin-top: 40px; display: flex; align-items: flex-end; justify-content: space-between; z-index: 3; position: relative; }
+  .lockup { display: flex; align-items: center; gap: 18px; }
+  .lockup .word { height: 42px; }
+  .lockup .mark { height: 60px; }
+  .partner { display: flex; align-items: center; gap: 18px; }
+  .partner image-slot { height: 60px; width: 150px; display: block; }
+  .scan { font-weight: 700; font-size: 30px; line-height: 1.2; color: var(--s1); max-width: 16ch; margin-top: 22px; }
+</style>
+</head>
+<body>
+  <div id="bar"><span class="lbl">Event type</span><span id="btns"></span></div>
+  <div id="opts"></div>
+  <div id="stage"><div id="tile"></div></div>
+
+  <script>
+  // Brand colour tokens (Ocean = Water, Soil = Earth)
+  const COLORS = {
+    land:'#025120', sunset:'#4C0027', ocean:'#013053', soil:'#421C01',
+    sky:'#67DAFF', summer:'#FF6325', sun:'#FFCD0E', jacaranda:'#DD60FF',
+  };
+  const LABEL = { land:'Land', sunset:'Sunset', ocean:'Ocean', soil:'Soil',
+    sky:'Sky', summer:'Summer', sun:'Sun', jacaranda:'Jacaranda' };
+  const DIV = 'assets/graphics/logan-divisions.png';
+
+  const EVENTS = {
+    'digital-builders': {
+      label: 'Digital Builders',
+      grounds: ['land','sunset'], pops: ['sky','jacaranda'], second: 'jacaranda',
+      eyebrow: ["UiLab's 2026 Events", 'UILAB.COM.AU'],
+      layout: 'divisions', hsize: '92px', headlineClass: 'right',
+      headline: "Digital Builders\n<span class='l2'>Hackathon</span>",
+      body: "Ever dreamt of building the next <em>viral app</em>? Team up, vibe-code it in a day — <em>zero experience needed</em>.",
+    },
+    'future-tech-open-house': {
+      label: 'Future Tech Open House',
+      grounds: ['sunset','ocean'], pops: ['summer'],
+      eyebrow: ["UiLab's 2026 Events", 'UILAB.COM.AU'],
+      layout: 'divisions', hsize: '70px', headlineClass: 'underline',
+      headline: "Future Tech Open House\nMonthly in-person sessions",
+      body: "Get hands-on with automation, AI & robotics! Experiment, ask questions and build confidence — for educators, industry & the tech-curious.",
+    },
+    'the-common-ground': {
+      label: 'The Common Ground',
+      grounds: ['sunset','ocean'], pops: ['sun'],
+      eyebrow: ["UiLab's 2026 Events", 'UILAB.COM.AU'],
+      layout: 'divisions', hsize: '78px',
+      headline: "The Common Ground",
+      body: "Where our community comes together to explore how emerging tech is shaping our city — guest speakers, local innovators, and the networks driving Logan forward.",
+    },
+    'teacher-ai-toolkit': {
+      label: 'Teacher AI Toolkit',
+      grounds: ['ocean','land'], pops: ['jacaranda','sky'],
+      eyebrow: ['Teacher AI Toolkit', 'UILAB.COM.AU'],
+      layout: 'rightcol', hsize: '64px',
+      headline: "Toolkit Takeaway:\nStress test your prompts",
+      tips: ["Push your prompt. Change the context. See what breaks.", "When gaps show up, adjust and try again — repeat until it's solid!"],
+    },
+    'industry-ai-toolkit': {
+      label: 'Industry AI Toolkit',
+      grounds: ['soil','ocean'], pops: ['sun','summer'],
+      eyebrow: ["UiLab's 2026 Events", 'UILAB.COM.AU'],
+      layout: 'fullbleed', hsize: '76px',
+      headline: "Put AI to work in your business",
+      body: "A practical monthly toolkit for local firms — register via the link in bio or visit uilab.com.au/events.",
+    },
+    'automation-studio': {
+      label: 'Automation Studio',
+      grounds: ['sunset','ocean'], pops: ['summer'],
+      eyebrow: ['Regional Enablers Program', 'UILAB.COM.AU'],
+      layout: 'divisions', hsize: '80px', partner: true,
+      headline: "Future-proof\nyour business",
+      body: "Automation & AI-readiness power sessions for local business — backed by the Queensland Government.",
+    },
+  };
+
+  // current ground/pop selection per event (persisted)
+  const SEL = {};
+  function selFor(key) {
+    if (!SEL[key]) {
+      let saved = {};
+      try { saved = JSON.parse(localStorage.getItem('uil-sel-' + key) || '{}'); } catch (_) {}
+      const e = EVENTS[key];
+      SEL[key] = {
+        ground: e.grounds.includes(saved.ground) ? saved.ground : e.grounds[0],
+        pop: e.pops.includes(saved.pop) ? saved.pop : e.pops[0],
+      };
+    }
+    return SEL[key];
+  }
+
+  function tileHTML(e) {
+    const eyebrow = `<div class="eyebrow"><span>${e.eyebrow[0]}</span><span>${e.eyebrow[1]}</span></div>`;
+    const lockup = `<div class="lockup"><img class="word" src="assets/logos/wordmark-${e.pop}.svg" alt="UiLab"><img class="mark" src="assets/logos/brandmark-${e.pop}.svg" alt=""></div>`;
+    let photo = '', block = '', footerRight = '';
+
+    if (e.layout === 'divisions') {
+      photo = `<div class="photo"><div class="mask"><image-slot id="ph-${e.key}" fit="cover" placeholder="Drop event photo"></image-slot></div></div>`;
+    } else if (e.layout === 'rightcol') {
+      photo = `<div class="rightcol"><image-slot id="ph-${e.key}" fit="cover" placeholder="Drop teacher photo"></image-slot></div>`;
+    } else if (e.layout === 'fullbleed') {
+      photo = `<div class="fullbleed"><image-slot id="ph-${e.key}" fit="cover" placeholder="Drop workplace photo"></image-slot></div>`;
+    }
+
+    const headline = `<div class="headline ${e.headlineClass||''}">${e.headline}</div>`;
+    if (e.tips) {
+      block = `<div class="block">${headline}<div class="tips">${e.tips.map(t=>`<div class="tip">${t}</div>`).join('')}</div></div>`;
+    } else {
+      const scan = e.scan ? `<div class="scan">${e.scan}</div>` : '';
+      block = `<div class="block">${headline}<div class="body">${e.body}</div>${scan}</div>`;
+    }
+
+    if (e.partner) {
+      footerRight = `<div class="partner"><image-slot id="gov-${e.key}" fit="contain" placeholder="QLD Gov"></image-slot></div>`;
+    }
+    const footer = `<div class="footer">${lockup}${footerRight}</div>`;
+
+    // rightcol keeps text on left half
+    const padStyle = e.layout === 'rightcol' ? 'style="padding-right:520px"' : '';
+    return `<div class="pad">${eyebrow}${photo}${block}${footer}</div>`.replace('<div class="pad">', `<div class="pad" ${padStyle}>`)
+      .replace('class="pad"  ', 'class="pad" ') ;
+  }
+
+  function render(key) {
+    const sel = selFor(key);
+    const e = { ...EVENTS[key], key, ground: COLORS[sel.ground], pop: sel.pop };
+    const t = document.getElementById('tile');
+    t.style.setProperty('--g', COLORS[sel.ground]);
+    t.style.setProperty('--p', COLORS[sel.pop]);
+    t.style.setProperty('--s1', COLORS[e.second] || COLORS[sel.pop]);
+    t.style.setProperty('--divmask', `url("${DIV}")`);
+    t.style.setProperty('--hsize', EVENTS[key].hsize || '78px');
+    t.innerHTML = tileHTML(e);
+    document.querySelectorAll('#btns button').forEach(b => b.classList.toggle('on', b.dataset.k === key));
+    localStorage.setItem('uil-event', key);
+    buildOpts(key);
+    fit();
+  }
+
+  function setSel(key, kind, val) {
+    selFor(key)[kind] = val;
+    localStorage.setItem('uil-sel-' + key, JSON.stringify(SEL[key]));
+    render(key);
+  }
+
+  function buildOpts(key) {
+    const e = EVENTS[key], sel = selFor(key);
+    const wrap = document.getElementById('opts');
+    const chip = (kind, name, isOn) =>
+      `<button class="sw ${isOn?'on':''}" data-kind="${kind}" data-val="${name}">` +
+      `<span class="dot" style="background:${COLORS[name]}"></span>${LABEL[name]}</button>`;
+    const groundGrp = e.grounds.length > 1
+      ? `<div class="grp"><span class="glbl">Ground</span>${e.grounds.map(g=>chip('ground',g,g===sel.ground)).join('')}</div>` : '';
+    const popGrp = e.pops.length > 1
+      ? `<div class="grp"><span class="glbl">Pop</span>${e.pops.map(p=>chip('pop',p,p===sel.pop)).join('')}</div>` : '';
+    wrap.innerHTML = (groundGrp || popGrp)
+      ? groundGrp + popGrp
+      : `<span class="none">${e.label} has a single fixed palette — ${LABEL[sel.ground]} ground · ${LABEL[sel.pop]} pop</span>`;
+    wrap.querySelectorAll('.sw').forEach(b => b.onclick = () => setSel(key, b.dataset.kind, b.dataset.val));
+  }
+
+  function fit() {
+    const t = document.getElementById('tile');
+    const stage = document.getElementById('stage');
+    const sc = Math.min((stage.clientWidth - 48) / 1080, (stage.clientHeight - 48) / 1350);
+    t.style.transform = 'scale(' + Math.min(sc, 1) + ')';
+  }
+
+  // build buttons
+  const btns = document.getElementById('btns');
+  Object.entries(EVENTS).forEach(([k, e]) => {
+    const b = document.createElement('button');
+    b.textContent = e.label; b.dataset.k = k;
+    b.onclick = () => render(k);
+    btns.appendChild(b);
+  });
+  addEventListener('resize', fit);
+  render(localStorage.getItem('uil-event') || 'digital-builders');
+  </script>
+</body>
+</html>
