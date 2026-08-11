@@ -1,6 +1,6 @@
 # UiLab Design System
 
-> **Translating emerging technology into local success.** · *Here for Logan.*
+> **Translating emerging technology into local success.** ·
 
 UiLab is an **innovation lab based in Logan, South East Queensland** — a place-based
 organisation that connects people, systems and creativity so emerging technology turns
@@ -38,8 +38,7 @@ This system was built directly from UiLab's official brand assets:
 
 The voice is **functional, understated and optimistic**, always grounded in place.
 
-- **Plain and declarative.** Short, confident statements. "A place for Logan to grow and
-  succeed." "Here for Logan." No hype, no buzzwords, no exclamation-mark energy.
+- **Plain and declarative.** Short, confident statements. No hype, no buzzwords, no exclamation-mark energy.
 - **Sentence case for everything readable** — headlines, body, card titles
   ("Emerging technology over lunch", "Developing the future talent of Logan").
 - **ALL-CAPS mono for labels** — eyebrows, names, roles, URLs, metadata, tags
@@ -157,4 +156,4 @@ SKILL.md                   Agent-Skills entry point
 
 ---
 
-*Built from the UiLab brand. Here for Logan.*
+*Built from the UiLab brand.*
